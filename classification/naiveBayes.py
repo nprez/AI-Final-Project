@@ -148,7 +148,17 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     logJoint = util.Counter()
     
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    pY = util.Counter 
+
+    for label in self.legalLabels:
+    	logJoint[label] = math.log(self.labelProbabilities[label])
+    	for feat, value in datum.items
+    	    if value > 0:
+                logJoint[label] += math.log(self.probabilities[feat,label])
+            else:
+                logJoint[label] += math.log(1-self.probabilities[feat,label])
+
+        return logJoint
     
     return logJoint
   
@@ -161,8 +171,19 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
     featuresOdds = []
        
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    for feat in self.features:
+        featuresOdds.append((self.probabilities[feat, label1]/self.probabilities[feat, label2], feat))
+       
+    featuresOdds.sort(reverse = true)
+
+    tempList = []
+
+    for i in range(100):
+    	tempList.append(featuresOdds[i])
+
+    featuresOdds = list(tempList)
+
+    
 
     return featuresOdds
     
