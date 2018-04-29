@@ -89,7 +89,17 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     logJoint = util.Counter()
     
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    pY = util.Counter 
+
+    for label in self.legalLabels:
+    	logJoint[label] = math.log(self.labelProbabilities[label])
+    	for feat, value in datum.items
+    	    if value > 0:
+                logJoint[label] += math.log(self.probabilities[feat,label])
+            else:
+                logJoint[label] += math.log(1-self.probabilities[feat,label])
+
+        return logJoint
     
     return logJoint
   
