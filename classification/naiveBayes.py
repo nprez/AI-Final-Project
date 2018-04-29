@@ -112,8 +112,19 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
     featuresOdds = []
        
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    for feat in self.features:
+        featuresOdds.append((self.probabilities[feat, label1]/self.probabilities[feat, label2], feat))
+       
+    featuresOdds.sort(reverse = true)
+
+    tempList = []
+
+    for i in range(100):
+    	tempList.append(featuresOdds[i])
+
+    featuresOdds = list(tempList)
+
+    
 
     return featuresOdds
     
