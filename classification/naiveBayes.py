@@ -70,28 +70,24 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     kpList = []
     kCounter = 0
 
-    """
-    for k in kgrid:
-        kpList.append(trainingData)
-
-    for kC in range(0, len(kpList)):
-        for dC in range(0, len(kpList[kC])):
-            for feature in kpList[kC][dC]:
-                kpList[kC][dC][feature]+=kgrid[kC]
-    """
-
     blankCounters = {}
     for feature in trainingData[0]:
         blankCounters[feature] = 0
 
-    for k in kgrid:
-        kpList.append({"0":blankCounters, "1":blankCounters, "2":blankCounters, "3":blankCounters, "4":blankCounters, "5":blankCounters, "6":blankCounters, "7":blankCounters, "8":blankCounters, "9":blankCounters})
+    blankDic = {}
+    for label in self.legalLabels:
+        blankDic[label] = blankCounters
 
-    numLabel = {"0":0.0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0}
+    for k in kgrid:
+        kpList.append(blankDic)
+
+    numLabel = {}
+    for label in self.legalLabels:
+        numLabel[label] = 0
 
     for k in range(len(kpList)):
         for datum in range(len(trainingData)):
-            label = str(trainingLabels[datum])
+            label = trainingLabels[datum]
             numLabel[label]+=1
             for f in trainingData[datum]:
                 kpList[k][label][f] += trainingData[datum][f]
@@ -99,7 +95,6 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     for k in range(len(kpList)):
         for label in kpList[k]:
             for feature in kpList[k][label]:
-                #print kpList[k][label][feature]
                 kpList[k][label][feature] = (kpList[k][label][feature]+kgrid[k])/(numLabel[label]+kgrid[k])
                 print kpList[k][label][feature]
 
@@ -114,7 +109,9 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
     #set later
     self.probabilities = None
-    self.labelProbabilities = {"0":0, "1":0.0, "2":0.0, "3":0.0, "4":0.0, "5":0.0, "6":0.0, "7":0.0, "8":0.0, "9":0.0}
+    self.labelProbabilities = {}
+    for label in self.legalLabels:
+        self.labelProbabilities[label] = 0.0
     for label in self.labelProbabilities:
         self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))
 
@@ -148,6 +145,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     logJoint = util.Counter()
     
     "*** YOUR CODE HERE ***"
+    """
     pY = util.Counter 
 
     for label in self.legalLabels:
@@ -161,6 +159,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         return logJoint
     
     return logJoint
+    """
+    util.raiseNotDefined()
   
   def findHighOddsFeatures(self, label1, label2):
     """
