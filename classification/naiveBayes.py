@@ -61,7 +61,66 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
 
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    """
+    collect counts for each feature in trainingData
+    get smoothed p(F)s using k values
+    add up differences
+    """
+
+    kpList = []
+    kCounter = 0
+
+    """
+    for k in kgrid:
+        kpList.append(trainingData)
+
+    for kC in range(0, len(kpList)):
+        for dC in range(0, len(kpList[kC])):
+            for feature in kpList[kC][dC]:
+                kpList[kC][dC][feature]+=kgrid[kC]
+    """
+
+    blankCounters = {}
+    for feature in trainingData[0]:
+        blankCounters[feature] = 0
+
+    for k in kgrid:
+        kpList.append({"0":blankCounters, "1":blankCounters, "2":blankCounters, "3":blankCounters, "4":blankCounters, "5":blankCounters, "6":blankCounters, "7":blankCounters, "8":blankCounters, "9":blankCounters})
+
+    numLabel = {"0":0.0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0}
+
+    for k in range(len(kpList)):
+        for datum in range(len(trainingData)):
+            label = str(trainingLabels[datum])
+            numLabel[label]+=1
+            for f in trainingData[datum]:
+                kpList[k][label][f] += trainingData[datum][f]
+
+    for k in range(len(kpList)):
+        for label in kpList[k]:
+            for feature in kpList[k][label]:
+                #print kpList[k][label][feature]
+                kpList[k][label][feature] = (kpList[k][label][feature]+kgrid[k])/(numLabel[label]+kgrid[k])
+                print kpList[k][label][feature]
+
+    print "NICK TEST STARTS HERE"
+    #print kgrid
+    #print kpList[0]["0"]
+    #print trainingData
+    #print trainingLabels
+    #print validationData
+    #print validationLabels
+    print "NICK TEST ENDS HERE"
+
+    #set later
+    self.probabilities = None
+    self.labelProbabilities = {"0":0, "1":0.0, "2":0.0, "3":0.0, "4":0.0, "5":0.0, "6":0.0, "7":0.0, "8":0.0, "9":0.0}
+    for label in self.labelProbabilities:
+        self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))
+
+    print self.labelProbabilities
+
+    #util.raiseNotDefined()
         
   def classify(self, testData):
     """
