@@ -92,23 +92,32 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             for f in trainingData[datum]:
                 kpList[k][label][f] += trainingData[datum][f]
 
+    kZeroList = {}
+    for label in kpList[0]:
+        kZeroList[label] = {}
+        for feature in kpList[0][label]:
+            kZeroList[label][feature] = float(kpList[0][label][feature])/float(numLabel[label])
+
     for k in range(len(kpList)):
         for label in kpList[k]:
             for feature in kpList[k][label]:
-                kpList[k][label][feature] = (kpList[k][label][feature]+kgrid[k])/(numLabel[label]+kgrid[k])
-                print kpList[k][label][feature]
+                kpList[k][label][feature] = float(kpList[k][label][feature]+kgrid[k])/float(numLabel[label]+kgrid[k])
 
-    print "NICK TEST STARTS HERE"
-    #print kgrid
-    #print kpList[0]["0"]
-    #print trainingData
-    #print trainingLabels
-    #print validationData
-    #print validationLabels
-    print "NICK TEST ENDS HERE"
+    diffList = []
+    for k in range(len(kpList)):
+        totalDiff = 0
+        for label in kpList[k]:
+            for feature in kpList[k][label]:
+                totalDiff+=kpList[k][label][feature]-kZeroList[label][feature]
+        diffList.append(totalDiff)
+
+    min = 0
+    for k in range(len(diffList)):
+        if(abs(diffList[k])<abs(diffList[min])):
+            min = k
 
     #set later
-    self.probabilities = None
+    self.probabilities = kpList[min]
     self.labelProbabilities = {}
     for label in self.legalLabels:
         self.labelProbabilities[label] = 0.0
