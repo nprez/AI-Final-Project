@@ -206,7 +206,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     featuresOdds = []
        
     for feat in self.features:
-        featuresOdds.append((self.probabilities[feat, label1]/self.probabilities[feat, label2], feat))
+        featuresOdds.append((self.probabilities[label1][feat]/self.probabilities[label2][feat]), feat)
        
     featuresOdds.sort(reverse = true)
 
