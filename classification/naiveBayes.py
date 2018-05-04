@@ -91,24 +91,38 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             numLabel[label]+=1
             for f in trainingData[datum]:
                 kpList[k][label][f] += trainingData[datum][f]
-
-    kZeroList = {}
-    for label in kpList[0]:
-        kZeroList[label] = {}
-        for feature in kpList[0][label]:
-            kZeroList[label][feature] = float(kpList[0][label][feature])/float(numLabel[label])
-
+    
     for k in range(len(kpList)):
         for label in kpList[k]:
             for feature in kpList[k][label]:
                 kpList[k][label][feature] = float(kpList[k][label][feature]+kgrid[k])/float(numLabel[label]+kgrid[k])
+
+    valList = {}
+    for label in self.legalLabels:
+        valList[label] = {}
+        for feature in kpList[0][label]:
+            valList[label][feature] = 0
+
+    valNumLabel = {}
+    for label in self.legalLabels:
+        valNumLabel[label] = 0
+
+    for datum in range(len(validationData)):
+        label = validationLabels[datum]
+        valNumLabel[label]+=1
+        for f in validationData[datum]:
+            valList[label][f] += validationData[datum][f]
+
+    for label in valList:
+        for feature in valList[label]:
+            valList[label][feature] = float(valList[label][feature])/float(valNumLabel[label])
 
     diffList = []
     for k in range(len(kpList)):
         totalDiff = 0
         for label in kpList[k]:
             for feature in kpList[k][label]:
-                totalDiff+=kpList[k][label][feature]-kZeroList[label][feature]
+                totalDiff+=kpList[k][label][feature]-valList[label][feature]
         diffList.append(totalDiff)
 
     min = 0
