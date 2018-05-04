@@ -196,6 +196,9 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
     return logJoint
   
+  def sortFunc(elem):
+    return elem[0]
+
   def findHighOddsFeatures(self, label1, label2):
     """
     Returns the 100 best features for the odds ratio:
@@ -208,7 +211,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     for feat in self.features:
         featuresOdds.append((self.probabilities[label1][feat]/self.probabilities[label2][feat]), feat)
        
-    featuresOdds.sort(reverse = true)
+    featuresOdds.sort(key=sortFunc, reverse=true)
 
     tempList = []
 
