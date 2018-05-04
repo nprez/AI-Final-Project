@@ -185,7 +185,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
 
     for label in self.legalLabels
-        logJoin[label] = math.log*self.labelProbabilities[label])
+        logJoin[label] = math.log(self.labelProbabilities[label])
         for feat, f in datum.items()
         if f > 0:
             logJoing[label] += math.log(self.probabilities[label][feat])
