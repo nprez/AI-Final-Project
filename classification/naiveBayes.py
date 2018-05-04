@@ -183,7 +183,18 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     
     return logJoint
     """
-    util.raiseNotDefined()
+
+    for label in self.legalLabels
+    	logJoin[label] = math.log*self.labelProbabilities[label])
+		for feat, f in datum.items()
+		if f > 0:
+			logJoing[label] += math.log(self.probabilities[label][feat])
+		else:
+			logJoing[label] += math.log(1-self.probabilities[label][feat])
+
+
+
+    return logJoint
   
   def findHighOddsFeatures(self, label1, label2):
     """
