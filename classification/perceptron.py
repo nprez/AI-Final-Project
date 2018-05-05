@@ -93,9 +93,8 @@ class PerceptronClassifier:
         tempList = []
 
         for i in range(100):
-            tempList.append(featuresWeights[i])
+            tempList.append(featuresWeights[i][0])
 
         featuresWeights = list(tempList)
 
-        #featuresWeights = self.weights[label].sortedKeys()[:100]
         return featuresWeights

@@ -208,7 +208,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         tempList = []   
 
         for i in range(100):
-            tempList.append(featuresOdds[i])
+            tempList.append(featuresOdds[i][1])
 
         featuresOdds = list(tempList)
 
