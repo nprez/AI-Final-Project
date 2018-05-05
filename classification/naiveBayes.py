@@ -93,21 +93,21 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         for label in self.legalLabels:
             valList[label] = {}
             for feature in kpList[0][label]:
-                valList[label][feature] = 0 
+                valList[label][feature] = 0
 
         valNumLabel = {}
         for label in self.legalLabels:
-            valNumLabel[label] = 0  
+            valNumLabel[label] = 0
 
         for datum in range(len(validationData)):
             label = validationLabels[datum]
             valNumLabel[label]+=1
             for f in validationData[datum]:
-                valList[label][f] += validationData[datum][f]   
+                valList[label][f] += validationData[datum][f]
 
         for label in valList:
             for feature in valList[label]:
-                valList[label][feature] = float(valList[label][feature])/float(valNumLabel[label])  
+                valList[label][feature] = float(valList[label][feature])/float(valNumLabel[label])
 
         diffList = []
         for k in range(len(kpList)):
@@ -115,22 +115,22 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             for label in kpList[k]:
                 for feature in kpList[k][label]:
                     totalDiff+=kpList[k][label][feature]-valList[label][feature]
-            diffList.append(totalDiff)  
+            diffList.append(totalDiff)
 
         min = 0
         for k in range(len(diffList)):
             if(abs(diffList[k])<abs(diffList[min])):
-                min = k 
+                min = k
 
         #set later
         self.probabilities = kpList[min]
         self.labelProbabilities = {}
         for label in self.legalLabels:
-            self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))    
+            self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))
 
         print "label probabilities:"
         print self.labelProbabilities
-        print "best k: "+str(kgrid[min])    
+        print "best k: "+str(kgrid[min])
 
         #util.raiseNotDefined()
 
@@ -183,7 +183,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
                 if feat[1] > 0:
                     logJoint[label] += math.log(self.probabilities[label][feat[0]])
                 else:
-                    logJoint[label] += math.log(1-self.probabilities[label][feat[0]])   
+                    logJoint[label] += math.log(1-self.probabilities[label][feat[0]])
 
         return logJoint
 
@@ -196,20 +196,20 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
         """ 
 
         def sortFunc(elem):
-            return elem[0]  
+            return elem[0]
 
         featuresOdds = []
            
         for feat in self.features:
             featuresOdds.append((float(self.probabilities[label1][feat])/float(self.probabilities[label2][feat]), feat))
            
-        featuresOdds.sort(key=sortFunc, reverse=True)   
+        featuresOdds.sort(key=sortFunc, reverse=True)
 
         tempList = []   
 
         for i in range(100):
-            tempList.append(featuresOdds[i])    
+            tempList.append(featuresOdds[i])
 
-        featuresOdds = list(tempList)   
+        featuresOdds = list(tempList)
 
         return featuresOdds
