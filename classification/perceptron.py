@@ -23,7 +23,7 @@ class PerceptronClassifier:
     self.max_iterations = max_iterations
     self.weights = {}
     for label in legalLabels:
-      self.weights[label] = util.Counter() # this is the data-structure you should use
+        self.weights[label] = util.Counter() # this is the data-structure you should use
 
   def setWeights(self, weights):
     assert len(weights) == len(self.legalLabels);
@@ -46,21 +46,21 @@ class PerceptronClassifier:
     # THE AUTOGRADER WILL LIKELY DEDUCT POINTS.
     
     for iteration in range(self.max_iterations):
-      print "Starting iteration ", iteration, "..."
-      for i in range(len(trainingData)):
-          "*** YOUR CODE HERE ***"
-          trueValue = trainingData[i]
-          guessValue = util.Counter()
-          for label in self.legalLabels:
-            guessValue[label] = trueValue * self.weights[label]
-          maxValue = guessValue.argMax()
+        print "Starting iteration ", iteration, "..."
+        for i in range(len(trainingData)):
+            "*** YOUR CODE HERE ***"
+            trueValue = trainingData[i]
+            guessValue = util.Counter()
+            for label in self.legalLabels:
+                guessValue[label] = trueValue * self.weights[label]
+            maxValue = guessValue.argMax()
 
-          actualValue = trainingLabels[i]
-          if maxValue != actualValue:
-            self.weights[actualValue] += trueValue
-            self.weights[maxValue] -= trueValue 
+            actualValue = trainingLabels[i]
+            if maxValue != actualValue:
+                self.weights[actualValue] += trueValue
+                self.weights[maxValue] -= trueValue
     
-  def classify(self, data ):
+  def classify(self, data):
     """
     Classifies each datum as the label that most closely matches the prototype vector
     for that label.  See the project description for details.
@@ -69,10 +69,10 @@ class PerceptronClassifier:
     """
     guesses = []
     for datum in data:
-      vectors = util.Counter()
-      for l in self.legalLabels:
-        vectors[l] = self.weights[l] * datum
-      guesses.append(vectors.argMax())
+        vectors = util.Counter()
+        for l in self.legalLabels:
+            vectors[l] = self.weights[l] * datum
+        guesses.append(vectors.argMax())
     return guesses
 
   
@@ -85,4 +85,3 @@ class PerceptronClassifier:
     "*** YOUR CODE HERE ***"
     featuresWeights = self.weights[label].sortedKeys()[:100]
     return featuresWeights
-
