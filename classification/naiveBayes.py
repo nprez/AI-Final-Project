@@ -61,14 +61,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
 
     "*** YOUR CODE HERE ***"
-    """
-    collect counts for each feature in trainingData
-    get smoothed p(F)s using k values
-    add up differences
-    """
 
     kpList = []
-    kCounter = 0
 
     blankCounters = {}
     for feature in trainingData[0]:
@@ -88,7 +82,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     for k in range(len(kpList)):
         for datum in range(len(trainingData)):
             label = trainingLabels[datum]
-            numLabel[label]+=1
+            if(k==0):
+                numLabel[label]+=1
             for f in trainingData[datum]:
                 kpList[k][label][f] += trainingData[datum][f]
     
@@ -138,6 +133,11 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     for label in self.labelProbabilities:
         self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))
 
+    print "numLabel:"
+    print numLabel
+    print "len trainingData:"
+    print len(trainingData)
+    print "asd:"
     print self.labelProbabilities
 
     #util.raiseNotDefined()
@@ -165,6 +165,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     To get the list of all possible features or labels, use self.features and 
     self.legalLabels.
     """
+
     logJoint = util.Counter()
     
     "*** YOUR CODE HERE ***"
@@ -192,12 +193,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             else:
                 logJoint[label] += math.log(1-self.probabilities[label][feat[0]])
 
-
-
     return logJoint
-  
-  def sortFunc(elem):
-    return elem[0]
 
   def findHighOddsFeatures(self, label1, label2):
     """
@@ -206,12 +202,16 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     
     Note: you may find 'self.features' a useful way to loop through all possible features
     """
+
+    def sortFunc(elem):
+        return elem[0]
+
     featuresOdds = []
        
     for feat in self.features:
-        featuresOdds.append((self.probabilities[label1][feat]/self.probabilities[label2][feat]), feat)
+        featuresOdds.append((float(self.probabilities[label1][feat])/float(self.probabilities[label2][feat]), feat))
        
-    featuresOdds.sort(key=sortFunc, reverse=true)
+    featuresOdds.sort(key=sortFunc, reverse=True)
 
     tempList = []
 
@@ -220,10 +220,4 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
     featuresOdds = list(tempList)
 
-    
-
     return featuresOdds
-    
-
-    
-      
