@@ -64,15 +64,12 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
 
     kpList = []
 
-    blankCounters = {}
-    for feature in trainingData[0]:
-        blankCounters[feature] = 0
-
-    blankDic = {}
-    for label in self.legalLabels:
-        blankDic[label] = blankCounters
-
     for k in kgrid:
+        blankDic = {}
+        for label in self.legalLabels:
+            blankDic[label] = {}
+            for feature in self.features:
+                blankDic[label][feature] = 0
         kpList.append(blankDic)
 
     numLabel = {}
@@ -90,7 +87,7 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     for k in range(len(kpList)):
         for label in kpList[k]:
             for feature in kpList[k][label]:
-                kpList[k][label][feature] = float(kpList[k][label][feature]+kgrid[k])/float(numLabel[label]+kgrid[k])
+                kpList[k][label][feature] = float(kpList[k][label][feature]+kgrid[k])/float(numLabel[label]+(2*kgrid[k]))
 
     valList = {}
     for label in self.legalLabels:
@@ -129,16 +126,11 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     self.probabilities = kpList[min]
     self.labelProbabilities = {}
     for label in self.legalLabels:
-        self.labelProbabilities[label] = 0.0
-    for label in self.labelProbabilities:
         self.labelProbabilities[label] = float(numLabel[label])/float(len(trainingData))
 
-    print "numLabel:"
-    print numLabel
-    print "len trainingData:"
-    print len(trainingData)
-    print "asd:"
+    print "label probabilities:"
     print self.labelProbabilities
+    print "best k: "+str(kgrid[min])
 
     #util.raiseNotDefined()
         
