@@ -9,6 +9,7 @@
 import util
 import classificationMethod
 import math
+import time
 
 class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
     """
@@ -37,6 +38,9 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
           
         # might be useful in your code later...
         # this is a list of all features in the training set.
+
+        startTime = time.clock()
+
         self.features = list(set([ f for datum in trainingData for f in datum.keys() ]));
         
         if (self.automaticTuning):
@@ -45,6 +49,8 @@ class NaiveBayesClassifier(classificationMethod.ClassificationMethod):
             kgrid = [self.k]
             
         self.trainAndTune(trainingData, trainingLabels, validationData, validationLabels, kgrid)
+
+        print "Seconds elapsed for training: "+str(time.clock()-startTime)
 
     def trainAndTune(self, trainingData, trainingLabels, validationData, validationLabels, kgrid):
         """
